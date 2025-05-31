@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกม Ralev</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* @import url('https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap'); */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600&display=swap');
+        /* @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap'); */
+
+        :root {
+            --primary-color: #4e54c8;
+            --secondary-color: #8f94fb;
+            --accent-color: #ff6b6b;
+            --success-color: #48dbaa;
+            --warning-color: #ffbe0b;
+            --danger-color: #ff5757;
+            --light-color: #f9f9ff;
+            --dark-color: #333;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            /* font-family: 'Sarabun', sans-serif; */
+            font-family: 'Noto Sans Thai', sans-serif;
+            /* font-family: 'Kanit', sans-serif; */
+        }
+
+        body {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        h1:after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        input,
+        button {
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input {
+            flex: 1;
+            min-width: 200px;
+            border: 2px solid #e0e0ff;
+            background-color: var(--light-color);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(143, 148, 251, 0.2);
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: left;
+        }
+
+        th:nth-child(odd) {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 500;
+        }
+
+        th:nth-child(even) {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            font-weight: 500;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f0f2ff;
+        }
+
+        tr:nth-child(odd) {
+            background-color: white;
+        }
+
+        tr:hover {
+            background-color: #e6e9ff;
+        }
+
+        .empty-list {
+            text-align: center;
+            padding: 30px;
+            color: #8a8a8a;
+            font-style: italic;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Button styles by function */
+        button[onclick*="addGame"] {
+            background: linear-gradient(135deg, var(--success-color), #2ad190);
+        }
+
+        button[onclick*="addGame"]:hover {
+            background: linear-gradient(135deg, #2ad190, var(--success-color));
+        }
+
+        button[onclick*="removeGame"] {
+            background: linear-gradient(135deg, var(--danger-color), #ff3434);
+        }
+
+        button[onclick*="addDay"] {
+            background: linear-gradient(135deg, var(--warning-color), #ffaa00);
+            color: var(--dark-color);
+        }
+
+        button[onclick*="copyToClipboard"] {
+            background: linear-gradient(135deg, #a6c1ee, #8bc6ec);
+        }
+
+        #game-date-add {
+            width: 80px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin-top: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0ff;
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 10px;
+        }
+
+        .toast {
+            min-width: 250px;
+            padding: 16px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--success-color), #2ad190);
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, var(--danger-color), #ff3434);
+        }
+
+        .toast.info {
+            background: linear-gradient(135deg, #a6c1ee, #8bc6ec);
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: white;
+            opacity: 0.7;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0;
+            margin-left: 10px;
+            box-shadow: none;
+        }
+
+        .toast-close:hover {
+            opacity: 1;
+            transform: none;
+            background: none;
+            box-shadow: none;
+        }
+
+        /* Material icons styling */
+        .material-icons {
+            font-size: 18px;
+            vertical-align: middle;
+        }
+
+        .page-title-icon {
+            vertical-align: middle;
+            margin-right: 8px;
+            font-size: 32px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="toast-container" id="toast-container"></div>
+    <div class="container">
+        <h1><span class="material-icons page-title-icon">sports_esports</span>เกม Ralev</h1>
+
+        <div class="input-group">
+            <div>
+                <label for="game-name"><span class="material-icons">videogame_asset</span> เกม:</label>
+                <input type="text" id="game-name" placeholder="ใส่ชื่อเกม" required>
+            </div>
+
+            <div>
+                <label for="game-date"><span class="material-icons">event</span> แพทซ์เข้า:</label>
+                <input type="date" id="game-date">
+            </div>
+
+            <div>
+                <label for="game-time"><span class="material-icons">schedule</span> เวลา:</label>
+                <input type="time" id="game-time" value="09:30">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <button onclick="addGame()"><span class="material-icons">add_circle</span> เพิ่มเกม</button>
+        </div>
+
+        <div>
+            <div>
+                <label for="game-date-add"><span class="material-icons">date_range</span> เพิ่ม +<span id="days-header">42</span> วัน:</label>
+                <input type="number" id="game-date-add" value="42" min="1" max="365">
+            </div>
+        </div>
+
+        <h2><span class="material-icons">list_alt</span> ตาราง</h2>
+        <div id="game-list">
+            <table id="games-table">
+                <thead>
+                    <tr>
+                        <th><span class="material-icons">videogame_asset</span> ชื่อเกม</th>
+                        <th><span class="material-icons">calendar_today</span> วัน (Human Readable)</th>
+                        <th><span class="material-icons">code</span> วัน (Epoch)</th>
+                        <th><span class="material-icons">discord</span> Discord Date</th>
+                        <th><span class="material-icons">timer</span> Discord Countdown</th>
+                        <th><span class="material-icons">update</span> เพิ่มจำนวนวัน</th>
+                        <th><span class="material-icons">delete</span> ลบ</th>
+                    </tr>
+                </thead>
+                <tbody id="games-body">
+                    <tr class="empty-list">
+                        <td colspan="7"><span class="material-icons">info</span> ยังไม่มีเกมที่เพิ่ม</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let games = [];
+        const STORAGE_KEY = 'gameListData';
+
+        function loadGames() {
+            const savedGames = localStorage.getItem(STORAGE_KEY);
+            if (savedGames) {
+                try {
+                    games = JSON.parse(savedGames);
+                    displayGames();
+                } catch (e) {
+                    console.error('Error loading saved games:', e);
+                    games = [];
+                }
+            }
+        }
+
+        function saveGames() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(games));
+        }
+
+        function addGame() {
+            const gameName = document.getElementById('game-name').value.trim();
+            const gameDate = document.getElementById('game-date').value;
+            const gameTime = document.getElementById('game-time').value || "00:00";
+
+            if (!gameName || !gameDate) {
+                showToast('กรุณากรอกชื่อเกมและวันที่ก่อนเพิ่มเกม', 'error');
+                return;
+            }
+
+            const dateTimeString = `${gameDate}T${gameTime}:00`;
+            const baseDate = new Date(dateTimeString);
+            const epochTime = baseDate.getTime();
+
+            games.push({
+                name: gameName,
+                date: epochTime,
+                epoch: Math.floor(epochTime / 1000)
+            });
+
+            document.getElementById('game-name').value = '';
+            document.getElementById('game-date').value = '';
+            document.getElementById('game-time').value = '09:30';
+
+            showToast('เพิ่มเกมสำเร็จ', 'success');
+            saveGames();
+            displayGames();
+        }
+
+        function removeGame(index) {
+            const gameName = games[index].name;
+            games.splice(index, 1);
+            saveGames();
+            displayGames();
+            showToast(`ลบ "${gameName}" สำเร็จ`, 'info');
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('คัดลอก: ' + text, 'success');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                showToast('ไม่สามารถคัดลอกได้', 'error');
+            });
+        }
+
+
+        function displayGames() {
+            const tableBody = document.getElementById('games-body');
+
+            if (games.length === 0) {
+                tableBody.innerHTML = '<tr class="empty-list"><td colspan="7"><span class="material-icons">info</span> ยังไม่มีเกมที่เพิ่ม</td></tr>';
+                return;
+            }
+
+            let html = '';
+            const daysToAdd = document.getElementById('game-date-add').value || 42;
+
+            games.forEach((game, index) => {
+                html += `
+                    <tr>
+                        <td>${game.name}</td>
+                        <td>${formatDate(game.date)}</td>
+                        <td>${game.epoch}</td>
+                        <td>
+                            <button onclick="copyToClipboard('<t:${game.epoch}:D>')"><span class="material-icons">content_copy</span> คัดลอก</button>
+                        </td>
+                        <td>
+                            <button onclick="copyToClipboard('<t:${game.epoch}:R>')"><span class="material-icons">timer</span> คัดลอก</button>
+                        </td>
+                        <td>
+                            <button onclick="addDay(${index})"><span class="material-icons">update</span> +${daysToAdd} วัน</button>
+                        </td>
+                        <td>
+                            <button onclick="removeGame(${index})" style="background-color: #f44336;"><span class="material-icons">delete</span> ลบ</button>
+                        </td>
+                    </tr>
+                    `;
+            });
+
+            tableBody.innerHTML = html;
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            return new Date(dateString).toLocaleDateString('th', options);
+        }
+
+
+        function addDay(index) {
+            const daysToAdd = parseInt(document.getElementById('game-date-add').value) || 42;
+            const game = games[index];
+            if (game) {
+                const newDate = new Date(game.date);
+                newDate.setDate(newDate.getDate() + daysToAdd);
+                const newEpoch = Math.floor(newDate.getTime() / 1000);
+                games.push({
+                    name: `${game.name} +${daysToAdd} วัน`,
+                    date: newEpoch * 1000,
+                    epoch: newEpoch
+                });
+                saveGames();
+                displayGames();
+                showToast(`เพิ่ม ${game.name} อีก ${daysToAdd} วันสำเร็จ`, 'success');
+            }
+        }
+
+        document.getElementById('game-date-add').addEventListener('input', function () {
+            document.getElementById('days-header').textContent = this.value || 42;
+            displayGames();
+        });
+
+        let gameNames = [];
+
+        function updateGameNameOptions() {
+            const gameInput = document.getElementById('game-name');
+            if (!gameInput.hasAttribute('list')) {
+                const dataListId = 'game-names-list';
+                gameInput.setAttribute('list', dataListId);
+
+                const dataList = document.createElement('datalist');
+                dataList.id = dataListId;
+                document.body.appendChild(dataList);
+            }
+
+            const dataList = document.getElementById('game-names-list');
+            dataList.innerHTML = '';
+
+            const uniqueNames = [...new Set(gameNames)];
+            uniqueNames.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                dataList.appendChild(option);
+            });
+        }
+
+        function updateGameNamesFromData() {
+            games.forEach(game => {
+                const baseName = game.name.split(' +')[0];
+                if (!gameNames.includes(baseName)) {
+                    gameNames.push(baseName);
+                }
+            });
+            updateGameNameOptions();
+        }
+
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toast-container');
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let iconName = 'info';
+            if (type === 'success') iconName = 'check_circle';
+            if (type === 'error') iconName = 'error';
+            
+            toast.innerHTML = `
+            <span><span class="material-icons">${iconName}</span> ${message}</span>
+            <button class="toast-close" onclick="this.parentElement.remove()"><span class="material-icons">close</span></button>
+        `;
+
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                if (toast && toast.parentElement) {
+                    toast.remove();
+                }
+            }, 3000);
+        }
+
+        loadGames();
+        updateGameNamesFromData();
+    </script>
+</body>
+
+</html>

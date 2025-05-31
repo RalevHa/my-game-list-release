@@ -411,7 +411,7 @@
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
-                showToast('คัดลอก: ' + text, 'success');
+                showToast('คัดลอกสำเร็จ', 'success');
             }).catch(err => {
                 console.error('Failed to copy: ', err);
                 showToast('ไม่สามารถคัดลอกได้', 'error');

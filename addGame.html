@@ -10,6 +10,12 @@
         /* @import url('https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap'); */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600&display=swap');
         /* @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap'); */
+        
+        * {
+            /* font-family: 'Sarabun', sans-serif; */
+            font-family: 'Noto Sans Thai', sans-serif;
+            /* font-family: 'Kanit', sans-serif; */
+        }
 
         :root {
             --primary-color: #4e54c8;
@@ -21,29 +27,155 @@
             --light-color: #f9f9ff;
             --dark-color: #333;
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+            --bg-main: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --bg-container: white;
+            --text-color: #333;
+            --input-bg: var(--light-color);
+            --input-border: #e0e0ff;
+            --row-even: #f0f2ff;
+            --row-odd: white;
+            --row-hover: #e6e9ff;
+            --border-color: #e0e0ff;
         }
 
-        * {
-            /* font-family: 'Sarabun', sans-serif; */
-            font-family: 'Noto Sans Thai', sans-serif;
-            /* font-family: 'Kanit', sans-serif; */
+        [data-theme="dark"] {
+            --primary-color: #6c72db;
+            --secondary-color: #a5a9ff;
+            --bg-main: linear-gradient(135deg, #232526 0%, #414345 100%);
+            --bg-container: #2d2d2d;
+            --text-color: #e0e0e0;
+            --input-bg: #3a3a3a;
+            --input-border: #555;
+            --row-even: #383838;
+            --row-odd: #2d2d2d;
+            --row-hover: #444444;
+            --border-color: #555;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         body {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: var(--dark-color);
+            background: var(--bg-main);
+            color: var(--text-color);
             min-height: 100vh;
+            transition: all 0.3s ease;
         }
 
         .container {
-            background-color: white;
+            background-color: var(--bg-container);
             padding: 30px;
             border-radius: 12px;
             box-shadow: var(--shadow);
             border-top: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        input {
+            flex: 1;
+            min-width: 200px;
+            border: 2px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--row-even);
+        }
+
+        tr:nth-child(odd) {
+            background-color: var(--row-odd);
+        }
+
+        tr:hover {
+            background-color: var(--row-hover);
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin-top: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        /* Theme toggle switch styling */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 34px;
+            position: relative;
+            width: 60px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider {
+            background-color: #ccc;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            background-color: white;
+            bottom: 4px;
+            content: "";
+            height: 26px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 26px;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+
+        .slider-icon {
+            color: #f1c40f;
+            position: absolute;
+            top: 7px;
+            transition: .4s;
+        }
+
+        .slider-icon.sun {
+            left: 7px;
+            opacity: 1;
+        }
+
+        .slider-icon.moon {
+            right: 7px;
+            opacity: 0;
+        }
+
+        input:checked+.slider .slider-icon.sun {
+            opacity: 0;
+        }
+
+        input:checked+.slider .slider-icon.moon {
+            opacity: 1;
         }
 
         h1 {
@@ -88,12 +220,7 @@
             transition: all 0.3s ease;
         }
 
-        input {
-            flex: 1;
-            min-width: 200px;
-            border: 2px solid #e0e0ff;
-            background-color: var(--light-color);
-        }
+ 
 
         input:focus {
             outline: none;
@@ -146,18 +273,6 @@
             background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
             color: white;
             font-weight: 500;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f0f2ff;
-        }
-
-        tr:nth-child(odd) {
-            background-color: white;
-        }
-
-        tr:hover {
-            background-color: #e6e9ff;
         }
 
         .empty-list {
@@ -296,6 +411,15 @@
 </head>
 
 <body>
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="theme-toggle">
+            <input type="checkbox" id="theme-toggle" />
+            <div class="slider">
+                <span class="slider-icon sun material-icons">light_mode</span>
+                <span class="slider-icon moon material-icons">dark_mode</span>
+            </div>
+        </label>
+    </div>
     <div class="toast-container" id="toast-container"></div>
     <div class="container">
         <h1><span class="material-icons page-title-icon">sports_esports</span>เกม Ralev</h1>
@@ -323,7 +447,8 @@
 
         <div>
             <div>
-                <label for="game-date-add"><span class="material-icons">date_range</span> เพิ่ม +<span id="days-header">42</span> วัน:</label>
+                <label for="game-date-add"><span class="material-icons">date_range</span> เพิ่ม +<span
+                        id="days-header">42</span> วัน:</label>
                 <input type="number" id="game-date-add" value="42" min="1" max="365">
             </div>
         </div>
@@ -523,11 +648,11 @@
 
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            
+
             let iconName = 'info';
             if (type === 'success') iconName = 'check_circle';
             if (type === 'error') iconName = 'error';
-            
+
             toast.innerHTML = `
             <span><span class="material-icons">${iconName}</span> ${message}</span>
             <button class="toast-close" onclick="this.parentElement.remove()"><span class="material-icons">close</span></button>
@@ -541,6 +666,28 @@
                 }
             }, 3000);
         }
+        
+        function setupThemeToggle() {
+            const toggleSwitch = document.getElementById('theme-toggle');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                toggleSwitch.checked = true;
+            }
+
+            toggleSwitch.addEventListener('change', function () {
+                if (this.checked) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        }
+
+        setupThemeToggle();
 
         loadGames();
         updateGameNamesFromData();
